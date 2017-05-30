@@ -21,6 +21,42 @@ class App extends Component {
     autoBind(this)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // исключаем варианты, когда бы изменено inputValue либо валюты были поменяны местами
+    if (prevState.inputValue !== this.state.inputValue) return
+    if (prevState.toCurrency === this.state.fromCurrency) return
+
+    // обновляем курс
+    this.getRate()
+  }
+
+  componentDidMount() {
+    this.getRate()
+  }
+
+  getRate() {
+    const baseUrl = 'http://api.fixer.io/latest',
+          queryStringData = {
+            base : this.state.fromCurrency,
+            symbols : this.state.toCurrency
+          },
+          queryString = Object.keys(queryStringData)
+            .map(key => key + '=' + encodeURIComponent(queryStringData[key]))
+            .join('&'),
+          url = baseUrl + "?" + queryString;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(responseData => {
+        this.setState({
+          rate: responseData.rates[this.state.toCurrency]
+        })
+      })
+      .catch(error => {
+        console.log('API Error')
+      })
+  }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -55,7 +91,7 @@ class App extends Component {
 const Form = (props) => (
   <form action="">
     <input 
-      type="text" 
+      type="number" 
       name="inputValue" 
       defaultValue={props.inputValue} 
       onChange={props.handleChange}
