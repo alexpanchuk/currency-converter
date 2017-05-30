@@ -54,7 +54,7 @@ class App extends Component {
         })
       })
       .catch(error => {
-        console.log('API Error')
+        console.error(error)
       })
   }
 
