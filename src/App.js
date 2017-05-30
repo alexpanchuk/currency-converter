@@ -22,19 +22,24 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // исключаем варианты, когда бы изменено inputValue либо валюты были поменяны местами
+    // т.к. setState срабатывет при любом изменении пользовательского ввода
+    // можно исключить случаи, когда было изменено значение в поле input
     if (prevState.inputValue !== this.state.inputValue) return
+    // и исключить случай, когда происзошла смена валют местами (в этом случае курс расчитывается внутри функции обработчика)
     if (prevState.toCurrency === this.state.fromCurrency) return
 
-    // обновляем курс
+    // для всех остальных случаем (пользователь выбрал другую валюту) запросить курс
     this.getRate()
   }
 
   componentDidMount() {
+    // запрос курса для дефолтных значений state.fromCurrency & state.toCurrency
     this.getRate()
   }
 
   getRate() {
+    // пример запроса: http://api.fixer.io/latest?base=USD&symbols=RUB
+    // формирование строки запроса
     const baseUrl = 'http://api.fixer.io/latest',
           queryStringData = {
             base : this.state.fromCurrency,
@@ -45,6 +50,7 @@ class App extends Component {
             .join('&'),
           url = baseUrl + "?" + queryString;
 
+    // запрос
     fetch(url)
       .then(response => response.json())
       .then(responseData => {
@@ -57,12 +63,14 @@ class App extends Component {
       })
   }
 
+  // обработчик onChange для input и select
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
+  // обработчик кнопки Switch.
   switchCurrencies(e) {
     this.setState((prevState) => {
       return {
