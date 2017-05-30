@@ -28,8 +28,6 @@ class App extends Component {
   }
 
   switchCurrencies(e) {
-    e.preventDefault()
-
     this.setState((prevState) => {
       return {
         fromCurrency: prevState.toCurrency,
@@ -55,25 +53,28 @@ class App extends Component {
 }
 
 const Form = (props) => (
-  <form action="" onChange={props.handleChange}>
+  <form action="">
     <input 
       type="text" 
       name="inputValue" 
       defaultValue={props.inputValue} 
+      onChange={props.handleChange}
     /><br/>
 
     <Select 
-      name="fromCurrency" 
+      name="fromCurrency"
       value={props.fromCurrency} 
       disabledValue={props.toCurrency}
+      handleChange={props.handleChange}
     />
 
-    <button onClick={props.switchCurrencies}>Switch</button>
+    <button type="button" onClick={props.switchCurrencies}>Switch</button>
 
     <Select 
       name="toCurrency" 
       value={props.toCurrency} 
       disabledValue={props.fromCurrency}
+      handleChange={props.handleChange}
     /><br/>
   </form>
 );
@@ -84,7 +85,7 @@ const Select = (props) => {
     .map(currency => <option key={currency.key} value={currency.key}>{currency.key}</option>)
 
   return (
-    <select name={props.name} value={props.value}>
+    <select name={props.name} value={props.value} onChange={props.handleChange}>
       {options}
     </select>
   );
