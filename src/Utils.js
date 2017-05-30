@@ -2,6 +2,7 @@
 var Utils = {
 	currency : [
 		{ "key" : "AUD", "name" : "Australian Dollar(AUD)" },
+		{ "key" : "USD", "name" : "United States Dollar(USD)" },
 		{ "key" : "BGN", "name" : "Bulgarian Lev(BGN)" },
 		{ "key" : "BRL", "name" : "Brazil Real(BRL)" },
 		{ "key" : "CAD", "name" : "Canadian Dollar(CAD)" },

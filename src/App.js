@@ -5,7 +5,7 @@ TO DO:
 */
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
-import Utils from './Utils';
+import Utils from './utils';
 import './style/app.css';
 
 class App extends Component {
