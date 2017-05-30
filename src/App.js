@@ -1,8 +1,3 @@
-/*
-TO DO:
-- componentDidMount: AJAX request, save rate
-- componentDidUpdate: if change Select (prevState.input === this.state.input) => AJAX
-*/
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import Utils from './Utils';
