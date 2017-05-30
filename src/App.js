@@ -45,7 +45,6 @@ class App extends Component {
         <Form
           handleChange={this.handleChange}
           switchCurrencies={this.switchCurrencies}
-          convert={this.convert}
           {...this.state}
         />
         <Result {...this.state} />
