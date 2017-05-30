@@ -1,0 +1,35 @@
+*
+{
+  box-sizing: border-box;
+}
+
+body,
+input,
+select,
+button
+{
+  font-size: 20px;
+}
+
+.App
+{
+  width: 230px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+form
+{
+  margin-bottom: 10px;
+}
+
+input
+{
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+select
+{
+  margin: 3px;
+}
