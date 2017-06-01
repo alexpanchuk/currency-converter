@@ -1,3 +1,7 @@
+/*
+TODO
+- обработка ошибок fetch
+*/
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import Utils from './Utils';
@@ -51,9 +55,6 @@ class App extends Component {
           rate: responseData.rates[this.state.toCurrency]
         })
       })
-      .catch(error => {
-        console.error(error)
-      })
   }
 
   // обработчик onChange для input и select
@@ -64,7 +65,7 @@ class App extends Component {
   }
 
   // обработчик кнопки Switch.
-  switchCurrencies(e) {
+  flipCurrencies(e) {
     this.setState((prevState) => {
       return {
         fromCurrency: prevState.toCurrency,
@@ -79,7 +80,7 @@ class App extends Component {
       <div className="App">
         <Form
           handleChange={this.handleChange}
-          switchCurrencies={this.switchCurrencies}
+          flipCurrencies={this.flipCurrencies}
           {...this.state}
         />
         <Result {...this.state} />
@@ -105,7 +106,7 @@ const Form = (props) => (
       handleChange={props.handleChange}
     />
 
-    <button type="button" onClick={props.switchCurrencies}>Switch</button>
+    <button type="button" onClick={props.flipCurrencies}>Switch</button>
 
     <Select 
       name="toCurrency" 
