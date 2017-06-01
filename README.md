@@ -1,6 +1,6 @@
 ## React examples. Currency converter
 
-Workin gin progress
+Working in progress
 
 ### Using
 * [create-react-app](https://github.com/facebookincubator/create-react-app)
