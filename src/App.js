@@ -14,7 +14,7 @@ class App extends Component {
       inputValue: '',
       fromCurrency: 'EUR',
       toCurrency: 'RUB',
-      rate: 62.2528
+      rate: null
     }
 
     autoBind(this)
