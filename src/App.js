@@ -4,7 +4,7 @@ TODO
 */
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
-import Utils from './Utils';
+import Currencies from './Currencies';
 import './style/app.css';
 
 class App extends Component {
@@ -118,7 +118,7 @@ const Form = (props) => (
 );
 
 const Select = (props) => {
-  const options = Utils.currency
+  const options = Currencies.currency
     .filter(currency => currency.key !== props.disabledValue)
     .map(currency => <option key={currency.key} value={currency.key}>{currency.key}</option>)
 
