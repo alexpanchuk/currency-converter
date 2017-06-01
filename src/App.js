@@ -14,45 +14,33 @@ class App extends Component {
       inputValue: '',
       fromCurrency: 'EUR',
       toCurrency: 'RUB',
-      rate: null
+      rate: 62.2528
     }
 
     autoBind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.inputValue === this.state.inputValue
-      && prevState.fromCurrency !== this.state.toCurrency
-      && prevState.toCurrency !== this.state.fromCurrency
-      && prevState.rate === this.state.rate) {
-      this.getRate()
+    // если пользователь сменил одну из валют в полях select, запросить новый курс
+    if (prevState.inputValue === this.state.inputValue // inputValue не менятлся
+      && prevState.fromCurrency !== this.state.toCurrency // значение select не былы поменяны местами
+      && prevState.toCurrency !== this.state.fromCurrency // --||--
+      && prevState.rate === this.state.rate) { // курс не менялся
+      getRate(this.state.fromCurrency, this.state.toCurrency)
+      .then(rate => {
+        this.setState({
+          rate: rate
+        })
+      })
     }
   }
 
   componentDidMount() {
     // запрос курса для дефолтных значений state.fromCurrency & state.toCurrency
-    this.getRate()
-  }
-
-  getRate() {
-    // пример запроса: http://api.fixer.io/latest?base=USD&symbols=RUB
-    // формирование строки запроса
-    const baseUrl = 'http://api.fixer.io/latest',
-          queryStringData = {
-            base : this.state.fromCurrency,
-            symbols : this.state.toCurrency
-          },
-          queryString = Object.keys(queryStringData)
-            .map(key => key + '=' + encodeURIComponent(queryStringData[key]))
-            .join('&'),
-          url = baseUrl + "?" + queryString;
-
-    // запрос
-    fetch(url)
-      .then(response => response.json())
-      .then(responseData => {
+    getRate(this.state.fromCurrency, this.state.toCurrency)
+      .then(rate => {
         this.setState({
-          rate: responseData.rates[this.state.toCurrency]
+          rate: rate
         })
       })
   }
@@ -147,6 +135,27 @@ const Result = (props) => {
       {value && <div>1 {props.fromCurrency} equals {rate} {props.toCurrency}</div>}
     </div>
   );
+}
+
+function getRate(fromCurrency, toCurrency) {
+  // пример запроса: http://api.fixer.io/latest?base=USD&symbols=RUB
+  // формирование строки запроса
+  const baseUrl = 'http://api.fixer.io/latest',
+        queryStringData = {
+          base : fromCurrency,
+          symbols : toCurrency
+        },
+        queryString = Object.keys(queryStringData)
+          .map(key => key + '=' + encodeURIComponent(queryStringData[key]))
+          .join('&'),
+        url = baseUrl + "?" + queryString;
+
+  // запрос курса для 2х валют
+  return fetch(url)
+    .then(response => response.json())
+    .then(responseData => {
+      return responseData.rates[toCurrency]
+    })
 }
 
 export default App;
