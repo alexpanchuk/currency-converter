@@ -10,21 +10,19 @@ class App extends Component {
       inputValue: '',
       fromCurrency: 'EUR',
       toCurrency: 'RUB',
-      rate: 63.0232427,
+      rate: null
     }
 
     autoBind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // т.к. setState срабатывет при любом изменении пользовательского ввода
-    // можно исключить случаи, когда было изменено значение в поле input
-    if (prevState.inputValue !== this.state.inputValue) return
-    // и исключить случай, когда происзошла смена валют местами (в этом случае курс расчитывается внутри функции обработчика)
-    if (prevState.toCurrency === this.state.fromCurrency) return
-
-    // для всех остальных случаем (пользователь выбрал другую валюту) запросить курс
-    this.getRate()
+    if (prevState.inputValue === this.state.inputValue
+      && prevState.fromCurrency !== this.state.toCurrency
+      && prevState.toCurrency !== this.state.fromCurrency
+      && prevState.rate === this.state.rate) {
+      this.getRate()
+    }
   }
 
   componentDidMount() {
