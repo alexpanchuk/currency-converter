@@ -28,9 +28,7 @@ class App extends Component {
       && prevState.rate === this.state.rate) { // курс не менялся
       getRate(this.state.fromCurrency, this.state.toCurrency)
       .then(rate => {
-        this.setState({
-          rate: rate
-        })
+        this.setState({rate})
       })
     }
   }
