@@ -39,9 +39,7 @@ class App extends Component {
     // запрос курса для дефолтных значений state.fromCurrency & state.toCurrency
     getRate(this.state.fromCurrency, this.state.toCurrency)
       .then(rate => {
-        this.setState({
-          rate: rate
-        })
+        this.setState({rate})
       })
   }
 
