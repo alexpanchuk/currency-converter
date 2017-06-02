@@ -27,18 +27,14 @@ class App extends Component {
       && prevState.toCurrency !== this.state.fromCurrency // --||--
       && prevState.rate === this.state.rate) { // курс не менялся
       getRate(this.state.fromCurrency, this.state.toCurrency)
-      .then(rate => {
-        this.setState({rate})
-      })
+      .then(rate => this.setState({rate}))
     }
   }
 
   componentDidMount() {
     // запрос курса для дефолтных значений state.fromCurrency & state.toCurrency
     getRate(this.state.fromCurrency, this.state.toCurrency)
-      .then(rate => {
-        this.setState({rate})
-      })
+      .then(rate => this.setState({rate}))
   }
 
   // обработчик onChange для input и select
