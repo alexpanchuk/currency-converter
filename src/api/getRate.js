@@ -1,7 +1,7 @@
 function getRate(fromCurrency, toCurrency) {
   // пример запроса: http://api.fixer.io/latest?base=USD&symbols=RUB
   // формирование строки запроса
-  const baseUrl = "http://api.fixer.io/latest",
+  const baseUrl = "https://api.fixer.io/latest",
     queryStringData = {
       base: fromCurrency,
       symbols: toCurrency

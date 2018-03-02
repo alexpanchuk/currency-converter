@@ -15,3 +15,7 @@ yarn start - run dev server on localhost:3000
 
 * react
 * semantic-ui
+
+### TODO
+
+* fetch rate onChange select before setState
