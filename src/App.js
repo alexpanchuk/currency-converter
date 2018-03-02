@@ -2,18 +2,18 @@
 TODO
 - обработка ошибок fetch
 */
-import React, { Component } from 'react';
-import autoBind from 'react-autobind';
-import Currencies from './Currencies';
-import './style/app.css';
+import React, { Component } from "react"
+import autoBind from "react-autobind"
+import Currencies from "./Currencies"
+import "./style/app.css"
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      inputValue: '',
-      fromCurrency: 'EUR',
-      toCurrency: 'RUB',
+      inputValue: "",
+      fromCurrency: "EUR",
+      toCurrency: "RUB",
       rate: null
     }
 
@@ -22,19 +22,24 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // если пользователь сменил одну из валют в полях select, запросить новый курс
-    if (prevState.inputValue === this.state.inputValue // inputValue не менятлся
-      && prevState.fromCurrency !== this.state.toCurrency // значение select не былы поменяны местами
-      && prevState.toCurrency !== this.state.fromCurrency // --||--
-      && prevState.rate === this.state.rate) { // курс не менялся
-      getRate(this.state.fromCurrency, this.state.toCurrency)
-      .then(rate => this.setState({rate}))
+    if (
+      prevState.inputValue === this.state.inputValue && // inputValue не менятлся
+      prevState.fromCurrency !== this.state.toCurrency && // значение select не былы поменяны местами
+      prevState.toCurrency !== this.state.fromCurrency && // --||--
+      prevState.rate === this.state.rate
+    ) {
+      // курс не менялся
+      getRate(this.state.fromCurrency, this.state.toCurrency).then(rate =>
+        this.setState({ rate })
+      )
     }
   }
 
   componentDidMount() {
     // запрос курса для дефолтных значений state.fromCurrency & state.toCurrency
-    getRate(this.state.fromCurrency, this.state.toCurrency)
-      .then(rate => this.setState({rate}))
+    getRate(this.state.fromCurrency, this.state.toCurrency).then(rate =>
+      this.setState({ rate })
+    )
   }
 
   // обработчик onChange для input и select
@@ -46,11 +51,11 @@ class App extends Component {
 
   // обработчик кнопки Switch.
   flipCurrencies(e) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {
         fromCurrency: prevState.toCurrency,
         toCurrency: prevState.fromCurrency,
-        rate: prevState.rate ? 1 / prevState.rate : null,
+        rate: prevState.rate ? 1 / prevState.rate : null
       }
     })
   }
@@ -65,82 +70,93 @@ class App extends Component {
         />
         <Result {...this.state} />
       </div>
-    );
+    )
   }
-
 }
 
-const Form = (props) => (
+const Form = props => (
   <form action="">
-    <input 
-      type="number" 
-      name="inputValue" 
-      defaultValue={props.inputValue} 
+    <input
+      type="number"
+      name="inputValue"
+      defaultValue={props.inputValue}
       onChange={props.handleChange}
-    /><br/>
+    />
+    <br />
 
-    <Select 
+    <Select
       name="fromCurrency"
-      value={props.fromCurrency} 
+      value={props.fromCurrency}
       disabledValue={props.toCurrency}
       handleChange={props.handleChange}
     />
 
-    <button type="button" onClick={props.flipCurrencies}>Switch</button>
+    <button type="button" onClick={props.flipCurrencies}>
+      Switch
+    </button>
 
-    <Select 
-      name="toCurrency" 
-      value={props.toCurrency} 
+    <Select
+      name="toCurrency"
+      value={props.toCurrency}
       disabledValue={props.fromCurrency}
       handleChange={props.handleChange}
-    /><br/>
+    />
+    <br />
   </form>
-);
+)
 
-const Select = (props) => {
+const Select = props => {
   const options = Currencies.currency
     .filter(currency => currency.key !== props.disabledValue)
-    .map(currency => <option key={currency.key} value={currency.key}>{currency.key}</option>)
+    .map(currency => (
+      <option key={currency.key} value={currency.key}>
+        {currency.key}
+      </option>
+    ))
 
   return (
     <select name={props.name} value={props.value} onChange={props.handleChange}>
       {options}
     </select>
-  );
+  )
 }
 
-const Result = (props) => {
+const Result = props => {
   let value = parseFloat(props.inputValue),
-      rate = props.rate
-  
-  value = rate ? value * rate : ''
+    rate = props.rate
+
+  value = rate ? value * rate : ""
   value = Math.floor(value * 100) / 100
   rate = Math.floor(rate * 1000) / 1000
 
   if (isNaN(value)) {
-    value = ''
+    value = ""
   }
 
   return (
     <div>
       <div>{value}</div>
-      {value && <div>1 {props.fromCurrency} equals {rate} {props.toCurrency}</div>}
+      {value && (
+        <div>
+          1 {props.fromCurrency} equals {rate} {props.toCurrency}
+        </div>
+      )}
     </div>
-  );
+  )
 }
 
 function getRate(fromCurrency, toCurrency) {
   // пример запроса: http://api.fixer.io/latest?base=USD&symbols=RUB
   // формирование строки запроса
-  const baseUrl = 'http://api.fixer.io/latest',
-        queryStringData = {
-          base : fromCurrency,
-          symbols : toCurrency
-        },
-        queryString = Object.keys(queryStringData)
-          .map(key => key + '=' + encodeURIComponent(queryStringData[key]))
-          .join('&'),
-        url = baseUrl + "?" + queryString;
+  const baseUrl = "http://api.fixer.io/latest",
+    queryStringData = {
+      base: fromCurrency,
+      symbols: toCurrency
+    },
+    queryString = Object.keys(queryStringData)
+      .map(key => key + "=" + encodeURIComponent(queryStringData[key]))
+      .join("&"),
+    url = baseUrl + "?" + queryString
 
   // запрос курса для 2х валют
   return fetch(url)
@@ -150,4 +166,4 @@ function getRate(fromCurrency, toCurrency) {
     })
 }
 
-export default App;
+export default App
