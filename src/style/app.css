@@ -1,35 +1,25 @@
-*
-{
-  box-sizing: border-box;
-}
-
-body,
-input,
-select,
-button
-{
+body {
   font-size: 20px;
 }
 
-.App
-{
-  width: 230px;
-  margin: 0 auto;
+.app {
+  padding-top: 20px;
   text-align: center;
+  width: 636px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-form
-{
+.form,
+.input {
   margin-bottom: 10px;
 }
 
-input
-{
-  width: 100%;
-  margin-bottom: 10px;
+.result-value {
+  font-size: 44px;
+  line-height: 1.5;
 }
 
-select
-{
-  margin: 3px;
+.result-rate {
+  font-size: 16px;
 }
